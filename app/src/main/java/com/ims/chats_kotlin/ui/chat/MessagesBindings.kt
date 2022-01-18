@@ -8,30 +8,27 @@ import kotlin.math.abs
 
 
 @BindingAdapter("bind_messages_list")
-fun bindMessagesList(listView: RecyclerView, items: List<Message>?){
-    items?.let{
+fun bindMessagesList(listView: RecyclerView, items: List<Message>?) {
+    items?.let {
         (listView.adapter as MessagesListAdapter).submitList(items)
         listView.scrollToPosition(items.size - 1)
     }
 }
 
-@BindingAdapter("bind_message", "bind_message_viewmodel")
-fun View.bindShouldMessageShowTimeText(message: Message, viewModel: ChatViewModel){
+@BindingAdapter("bind_message", "bind_message_viewModel")
+fun View.bindShouldMessageShowTimeText(message: Message, viewModel: ChatViewModel) {
     val halfHourInMilli = 1800000
     val index = viewModel.messagesList.value!!.indexOf(message)
+
     if (index == 0) {
         this.visibility = View.VISIBLE
-    }else{
-        val messageBefore = viewModel.messagesList.value!![index-1]
+    } else {
+        val messageBefore = viewModel.messagesList.value!![index - 1]
 
-        if (abs(messageBefore.epochTimeMs - message.epochTimeMs) > halfHourInMilli){
+        if (abs(messageBefore.epochTimeMs - message.epochTimeMs) > halfHourInMilli) {
             this.visibility = View.VISIBLE
-        }else{
+        } else {
             this.visibility = View.GONE
         }
     }
-}
-
-
-class MessagesBindings {
 }
